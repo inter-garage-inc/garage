@@ -4,7 +4,6 @@
 ```json
   [
       {
-          "status": "ACTIVE",
           "activated": true
       }
   ]
