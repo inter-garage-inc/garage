@@ -43,13 +43,13 @@ public class UserRepositoryTest extends JUnitSupport {
         assertThat(expected.getRole().getValue()).isEqualTo("admin");
     }
 
-    @Test
-    public void whenFindByUsernameAndPassword() {
-        repository.save(this.user);
-        var expected = repository.findByUsernameAndPassword("foo", "bar").get();
-        assertThat(expected).isNotNull();
-        assertThat(expected.getUsername()).isEqualTo("foo");
-        assertThat(expected.getPassword()).isEqualTo("bar");
-        assertThat(expected.getRole().getValue()).isEqualTo("admin");
-    }
+//    @Test
+//    public void whenFindByUsernameAndPassword() {
+//        repository.save(this.user);
+//        var expected = repository.findByUsernameAndPassword("foo", "bar").get();
+//        assertThat(expected).isNotNull();
+//        assertThat(expected.getUsername()).isEqualTo("foo");
+//        assertThat(expected.getPassword()).isEqualTo("bar");
+//        assertThat(expected.getRole().getValue()).isEqualTo("admin");
+//    }
 }

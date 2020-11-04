@@ -1,6 +1,6 @@
 package garage.web.controller;
 
-import garage.controller.web.UsersController;
+import garage.web.controllers.UsersController;
 import garage.core.entity.User;
 import garage.core.entity.user.Role;
 import garage.core.repository.UserRepository;
