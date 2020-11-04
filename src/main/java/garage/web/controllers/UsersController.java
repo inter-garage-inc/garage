@@ -1,4 +1,4 @@
-package garage.controller.web;
+package garage.web.controllers;
 
 import garage.core.entity.User;
 import garage.core.repository.UserRepository;

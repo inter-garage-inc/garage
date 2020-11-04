@@ -1,4 +1,4 @@
-package garage.controller.web;
+package garage.web.controllers;
 
 import garage.core.entity.Order;
 import garage.core.repository.OrderRepository;

@@ -1,4 +1,4 @@
-package garage.controller.web;
+package garage.web.controllers;
 
 import garage.core.entity.Customer;
 import garage.core.repository.CustomerRepository;
