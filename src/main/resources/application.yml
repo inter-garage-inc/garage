@@ -2,7 +2,7 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/garage
+    url: jdbc:mysql://localhost:3306/garage?useTimezone=true&serverTimezone=UTC
     username: garage
     password: 'G@rAg3Inc'
     hikari:
