@@ -5,6 +5,7 @@ import garage.core.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,13 +16,18 @@ public class UsersController {
     @Autowired
     private UserRepository userRepository;
 
-    public UsersController(UserRepository userRepository) {
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    public UsersController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping(path = "/users", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public User create(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
