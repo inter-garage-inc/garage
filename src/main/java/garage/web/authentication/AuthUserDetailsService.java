@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class AuthUserDetailsService implements UserDetailsService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public AuthUserDetails loadUserByUsername(String username) {
