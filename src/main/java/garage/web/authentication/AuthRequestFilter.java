@@ -19,7 +19,7 @@ import java.io.IOException;
 @Component
 public class AuthRequestFilter extends OncePerRequestFilter {
 
-    private final static String PREFIX = "";
+    private final static String PREFIX = "Bearer ";
     private final static String HEADER = "Authorization";
 
     @Autowired

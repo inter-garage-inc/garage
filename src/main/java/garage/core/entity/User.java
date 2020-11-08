@@ -20,7 +20,7 @@ import java.util.Date;
 @EqualsAndHashCode(callSuper = false)
 public class User extends EntityBase {
     @NonNull
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String username;
 
     @NotNull
