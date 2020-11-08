@@ -31,20 +31,33 @@ To start this app:
 
 ## How to test
 Open you console and enter command below:
-
 ```
-curl -X POST  http://localhost:8080/users -d '{"username": "foo","password": "bar", "role": "ADMIN"}' -H "Content-Type: application/json" | python -m json.tool
-
+curl -X POST  http://localhost:8080/authentication -d '{"username": "foo", "password": "bar"}' -H "Content-Type: application/json" | python -m json.tool
 ```
 
 Response:
 ```
 {
-    "id": 1,
-    "username": "foo",
-    "password": "bar",
-    "role": "ADMIN"
+    "token": "ACCESS_TOKEN"
 }
+```
+
+Copy the ACCESS_TOKEN above and paste it below:
+
+```
+curl -X GET http://localhost:8080/users -H "Authorization: Bearer ACCESS_TOKEN" "Content-Type: application/json" | python -m json.tool
+```
+Response:
+```
+[
+    {
+        "id": 1,
+        "created_at": "2020-11-04T21:41:27.469193",
+        "username": "foo",
+        "password": "$2y$12$fPqQBe.GDMBsuruFAYNApOJ3nIJ6k8WSI4urNcAK8lFJMuwNLNA1u",
+        "role": "ADMIN"
+    }
+]
 ```
 
 
