@@ -1,13 +1,12 @@
 package garage.core.entity.user;
 
-public enum Role {
-    ADMIN("admin"),
-    MANAGER("manager"),
-    EMPLOYEE("employee");
+public enum Status {
+    ACTIVE("active"),
+    DISABLE("disable");
 
     private String value;
 
-    Role(final String value) {
+    Status(final String value) {
         this.value = value;
     }
 
