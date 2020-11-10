@@ -47,6 +47,7 @@ public class User extends EntityBase {
         this.username = attributes.getUsername();
         this.password = attributes.getPassword();
         this.role = attributes.getRole();
+        this.status = attributes.getStatus();
         setUpdatedAt(LocalDateTime.now());
         return this;
     }
