@@ -13,12 +13,12 @@ public class AuthToken {
     private final static String SECRET_KEY = "G@rAg3Inc";
     private final static Integer EXPIRATION = 1000 * 60 * 60 * 10;
 
-    public String createToken(String id, String username, String password) {
+    public String createToken(AuthUserDetails authUserDetails) {
         Long currentTimeMillis = System.currentTimeMillis();
         return Jwts.builder()
-                .claim("id", id)
-                .claim("username", username)
-                .claim("password", password)
+                .claim("id", authUserDetails.getId())
+                .claim("username", authUserDetails.getUsername())
+                .claim("password", authUserDetails.getPassword())
                 .setIssuedAt(new Date(currentTimeMillis))
                 .setExpiration(new Date(currentTimeMillis + EXPIRATION))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)

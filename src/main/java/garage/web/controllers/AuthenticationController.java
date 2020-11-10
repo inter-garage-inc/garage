@@ -1,5 +1,6 @@
 package garage.web.controllers;
 
+import garage.core.entity.User;
 import garage.core.repository.UserRepository;
 import garage.web.authentication.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,13 +33,9 @@ public class AuthenticationController {
 
     @PostMapping(value = "/authentication", produces = "application/json")
     public ResponseEntity<AuthResponse> authentication(@RequestBody AuthRequest authRequest) {
-
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-
-        AuthUserDetails authUserDetails = authUserDetailsService.loadUserByUsername(authRequest.getUsername());
-
-        String token = authToken.createToken(authUserDetails.getId(), authUserDetails.getUsername(), authUserDetails.getPassword());
-
+        var authUserDetails = authUserDetailsService.loadUserByUsername(authRequest.getUsername());
+        var token = authToken.createToken(authUserDetails);
         return ResponseEntity.ok(new AuthResponse(token));
     }
 }
