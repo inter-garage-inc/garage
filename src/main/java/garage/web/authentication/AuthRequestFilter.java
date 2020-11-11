@@ -1,7 +1,6 @@
 package garage.web.authentication;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,7 +25,7 @@ public class AuthRequestFilter extends OncePerRequestFilter {
     private UserDetailsService userDetailsService;
 
     @Autowired
-    private AuthToken authToken;
+    private JwtUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -35,11 +34,11 @@ public class AuthRequestFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith(PREFIX) && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             String token = authorizationHeader.substring(PREFIX.length());
-            String username = authToken.extractClaim(token, "username");
+            String username = jwtUtil.extractClaim(token, "username");
 
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-            if (authToken.isValid(token, userDetails)) {
+            if (jwtUtil.isValid(token, userDetails)) {
                 UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                 usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
