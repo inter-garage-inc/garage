@@ -1,6 +1,6 @@
 package garage.web;
 
-import garage.web.authentication.AuthUserDetailsService;
+import garage.web.authentication.MyUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,7 +14,7 @@ public class Config {
     }
 
     @Bean
-    public AuthUserDetailsService authUserDetailsService() {
-        return new AuthUserDetailsService();
+    public MyUserDetailsService authUserDetailsService() {
+        return new MyUserDetailsService();
     }
 }

@@ -1,5 +1,4 @@
 package garage.web.authentication;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -9,16 +8,16 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class AuthToken {
+public class JwtUtil {
     private final static String SECRET_KEY = "G@rAg3Inc";
     private final static Integer EXPIRATION = 1000 * 60 * 60 * 10;
 
-    public String createToken(String id, String username, String password) {
-        Long currentTimeMillis = System.currentTimeMillis();
+    public String createToken(MyUserDetails myUserDetails) {
+        var currentTimeMillis = System.currentTimeMillis();
         return Jwts.builder()
-                .claim("id", id)
-                .claim("username", username)
-                .claim("password", password)
+                .claim("username", myUserDetails.getUsername())
+                .claim("password", myUserDetails.getPassword())
+                .claim("user", myUserDetails.getAsString())
                 .setIssuedAt(new Date(currentTimeMillis))
                 .setExpiration(new Date(currentTimeMillis + EXPIRATION))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
