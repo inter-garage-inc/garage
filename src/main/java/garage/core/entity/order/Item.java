@@ -25,5 +25,4 @@ public class Item extends EntityBase {
     @NotNull
     @Column
     private BigDecimal amout;
-
 }

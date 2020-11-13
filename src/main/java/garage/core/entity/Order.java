@@ -3,6 +3,7 @@ package garage.core.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import garage.core.EntityBase;
 import garage.core.entity.order.Item;
+import garage.core.entity.order.PaymentMethod;
 import garage.core.entity.order.Status;
 import lombok.*;
 
@@ -28,13 +29,21 @@ public class Order extends EntityBase {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @NotNull
-    @Column(name = "status", nullable = false)
-    private Status status;
+    @Column(name = "payment_method", nullable = false)
+    private PaymentMethod paymentMethod;
 
     @NotNull
     @Column(name = "total_amount", nullable = false)
     private BigDecimal totalAmout;
+
+    @NotNull
+    @Column(name = "status", nullable = false)
+    private Status status;
 
     public Order update(Order attributes) {
         this.status = attributes.getStatus();

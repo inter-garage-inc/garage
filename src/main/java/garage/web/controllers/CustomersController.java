@@ -20,9 +20,11 @@ public class CustomersController {
 
     @PostMapping(path = "/customers", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public Customer create(@RequestBody Customer customer) {
+    public Customer register(@RequestBody Customer customer) {
         return customerRepository.save(customer);
     }
+
+
 
     @GetMapping(path = "/customers", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
