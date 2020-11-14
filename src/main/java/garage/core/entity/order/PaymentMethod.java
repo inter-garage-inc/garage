@@ -4,9 +4,9 @@ public enum PaymentMethod {
     CASH("cash"),
     CARD("card");
 
-    private String value;
+    private final String value;
 
-    PaymentMethod(String value) {
+    PaymentMethod(final String value) {
         this.value = value;
     }
 

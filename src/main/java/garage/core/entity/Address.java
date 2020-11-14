@@ -2,6 +2,7 @@ package garage.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import garage.core.EntityBase;
+import garage.core.entity.address.Country;
 import garage.core.entity.address.State;
 import lombok.*;
 
@@ -27,8 +28,12 @@ public class Address extends EntityBase {
     private String complement;
 
     @NotNull
+    @Column(name = "postal_code", nullable = false)
+    private String postalCode;
+
+    @NotNull
     @Column(nullable = false)
-    private String neighborhood;
+    private String city;
 
     @NotNull
     @Column(nullable = false)
@@ -37,14 +42,6 @@ public class Address extends EntityBase {
 
     @NotNull
     @Column(nullable = false)
-    private String country;
-
-    @NotNull
-    @Column(name = "postal_code")
-    private Integer postalCode;
-
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @Enumerated(EnumType.STRING)
+    private Country country;
 }

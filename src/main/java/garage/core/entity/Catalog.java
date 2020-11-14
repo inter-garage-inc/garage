@@ -1,6 +1,7 @@
 package garage.core.entity;
 
 import garage.core.EntityBase;
+import garage.core.entity.catalog.Status;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -27,12 +28,12 @@ public class Catalog extends EntityBase {
 
     @NotNull
     @Column(nullable = false)
-    private String unit;
+    private Status status;
 
     public Catalog update(Catalog attributes) {
         this.description = attributes.getDescription();
         this.price = attributes.getPrice();
-        this.unit = attributes.getUnit();
+        this.status = attributes.getStatus();
         return this;
     }
 }

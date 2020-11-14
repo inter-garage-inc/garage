@@ -2,7 +2,6 @@ package garage.core.repository;
 
 import factories.ParkingSpaceFactory;
 import garage.core.entity.parking.ParkingSpace;
-import garage.core.repository.ParkingSpaceRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

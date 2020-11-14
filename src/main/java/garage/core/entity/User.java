@@ -20,6 +20,7 @@ import java.util.Date;
 @Table(name = "users")
 @EqualsAndHashCode(callSuper = false)
 public class User extends EntityBase {
+
     @NotNull
     @Column(nullable = false)
     private String name;

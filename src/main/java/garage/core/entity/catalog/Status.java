@@ -1,9 +1,8 @@
-package garage.core.entity.order;
+package garage.core.entity.catalog;
 
 public enum Status {
-    OPEN("open"),
-    PAID("paid"),
-    CANCELED("canceled");
+    AVAILABLE("available"),
+    UNAVAILABLE("unavailable");
 
     private final String value;
 

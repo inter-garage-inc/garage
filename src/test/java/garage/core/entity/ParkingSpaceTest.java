@@ -1,8 +1,6 @@
 package garage.core.entity;
 
-import factories.ParkingFactory;
 import factories.ParkingSpaceFactory;
-import garage.core.entity.parking.ParkingSpace;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
