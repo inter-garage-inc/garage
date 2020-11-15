@@ -2,11 +2,13 @@ package garage.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import garage.core.EntityBase;
+import garage.core.entity.address.Country;
 import garage.core.entity.address.State;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -20,15 +22,19 @@ public class Address extends EntityBase {
     @Column(nullable = false)
     private String street;
 
-    @Column
+    @Column(nullable = false)
     private String number;
 
     @Column
     private String complement;
 
     @NotNull
+    @Column(name = "postal_code", nullable = false)
+    private String postalCode;
+
+    @NotNull
     @Column(nullable = false)
-    private String neighborhood;
+    private String city;
 
     @NotNull
     @Column(nullable = false)
@@ -37,14 +43,18 @@ public class Address extends EntityBase {
 
     @NotNull
     @Column(nullable = false)
-    private String country;
+    @Enumerated(EnumType.STRING)
+    private Country country;
 
-    @NotNull
-    @Column(name = "postal_code")
-    private Integer postalCode;
-
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
-    private Customer customer;
+    public Address update(Address attributes) {
+        this.street = attributes.getStreet();
+        this.number = attributes.getNumber();
+        this.complement = attributes.getComplement();
+        this.postalCode = attributes.getPostalCode();
+        this.city = attributes.getCity();
+        this.state = attributes.getState();
+        this.country = attributes.getCountry();
+        setUpdatedAt(LocalDateTime.now());
+        return this;
+    }
 }

@@ -5,7 +5,7 @@ import garage.core.entity.parking.ParkingSpace;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,9 +16,9 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = false)
 public class Parking extends EntityBase {
 
-    @NotNull
-    @Column(nullable = false)
-    private Integer number;
+    private LocalDateTime checkInAt;
+
+    private LocalDateTime checkoutAt;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "parking_space_id")

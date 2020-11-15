@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -20,34 +21,30 @@ public class Customer extends EntityBase {
     private String name;
 
     @NotNull
-    @Column(name = "cpf_cnpj")
-    private Integer cpfCnpj;
+    @Column(name = "cpf_cnpj", nullable = false, unique = true)
+    private String cpfCnpj;
 
     @NotNull
-    @Column
-    private Integer phone;
+    @Column(nullable = false)
+    private String phone;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "customer_id")
-//    private List<Vehicle> vehicles;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private List<Vehicle> vehicles;
 
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "customer_id")
-//    private List<Order> orders;
-//
-//    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinTable(name = "customer_plan",
-//            joinColumns = {@JoinColumn(name = "customer_id", referencedColumnName = "id")},
-//            inverseJoinColumns = {@JoinColumn(name = "plan_id", referencedColumnName = "id")})
-//    private Plan plan;
-//
-//    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//    @JoinColumn(name = "address_id")
-//    private List<Address> addresses;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    private List<Order> orders;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
+    private Address address;
 
     public Customer update(Customer attributes) {
         this.name = attributes.getName();
+        this.cpfCnpj = attributes.getCpfCnpj();
+        this.phone = attributes.getPhone();
+        setUpdatedAt(LocalDateTime.now());
         return this;
     }
 }

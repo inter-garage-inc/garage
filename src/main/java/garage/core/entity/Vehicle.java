@@ -17,12 +17,15 @@ import javax.validation.constraints.NotNull;
 public class Vehicle extends EntityBase {
 
     @NotNull
-    @Column(name = "license_plate")
+    @Column(name = "license_plate", nullable = false)
     private String licencePlate;
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "plan_id")
+    private Plan plan;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     public Vehicle update(Vehicle attributes) {

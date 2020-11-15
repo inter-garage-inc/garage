@@ -18,5 +18,9 @@ import javax.validation.constraints.NotNull;
 public class ParkingSpace extends EntityBase {
     @NotNull
     @Column
-    private Integer number;
+    private String code;
+
+    @NotNull
+    @Column
+    private SpaceStatus status;
 }

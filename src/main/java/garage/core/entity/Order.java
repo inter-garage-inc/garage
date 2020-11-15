@@ -35,19 +35,21 @@ public class Order extends EntityBase {
 
     @NotNull
     @Column(name = "payment_method", nullable = false)
+    @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
     @NotNull
     @Column(name = "total_amount", nullable = false)
-    private BigDecimal totalAmout;
+    private BigDecimal totalAmount;
 
     @NotNull
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     public Order update(Order attributes) {
         this.status = attributes.getStatus();
-        this.totalAmout = attributes.getTotalAmout();
+        this.totalAmount = attributes.getTotalAmount();
         return this;
     }
 }

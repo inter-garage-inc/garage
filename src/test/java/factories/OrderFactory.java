@@ -9,7 +9,7 @@ public class OrderFactory {
     public static Order order() {
         return Order.builder()
                 .status(Status.PAID)
-                .totalAmout(BigDecimal.valueOf(1000))
+                .totalAmount(BigDecimal.valueOf(1000))
                 .build();
     }
 
