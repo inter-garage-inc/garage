@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Builder
 @Data
@@ -21,7 +22,7 @@ public class Address extends EntityBase {
     @Column(nullable = false)
     private String street;
 
-    @Column
+    @Column(nullable = false)
     private String number;
 
     @Column
@@ -44,4 +45,16 @@ public class Address extends EntityBase {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Country country;
+
+    public Address update(Address attributes) {
+        this.street = attributes.getStreet();
+        this.number = attributes.getNumber();
+        this.complement = attributes.getComplement();
+        this.postalCode = attributes.getPostalCode();
+        this.city = attributes.getCity();
+        this.state = attributes.getState();
+        this.country = attributes.getCountry();
+        setUpdatedAt(LocalDateTime.now());
+        return this;
+    }
 }

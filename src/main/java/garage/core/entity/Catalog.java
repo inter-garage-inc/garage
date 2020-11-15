@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -34,6 +35,7 @@ public class Catalog extends EntityBase {
         this.description = attributes.getDescription();
         this.price = attributes.getPrice();
         this.status = attributes.getStatus();
+        setUpdatedAt(LocalDateTime.now());
         return this;
     }
 }

@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @NoArgsConstructor
@@ -41,6 +42,9 @@ public class Customer extends EntityBase {
 
     public Customer update(Customer attributes) {
         this.name = attributes.getName();
+        this.cpfCnpj = attributes.getCpfCnpj();
+        this.phone = attributes.getPhone();
+        setUpdatedAt(LocalDateTime.now());
         return this;
     }
 }
