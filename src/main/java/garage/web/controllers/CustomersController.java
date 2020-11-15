@@ -22,7 +22,6 @@ public class CustomersController {
     @PostMapping(path = "/customers", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
     public Customer save(@RequestBody Customer customer) {
-        System.out.println(customer.getCpfCnpj());
         return customerRepository.save(customer);
     }
 
