@@ -1,9 +1,6 @@
 package garage.web.authentication;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.util.StdDateFormat;
 import garage.core.entity.User;
 import lombok.Getter;
 import lombok.SneakyThrows;

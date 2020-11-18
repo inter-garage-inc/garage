@@ -1,9 +1,7 @@
 package garage.web.controllers;
 
 import garage.core.entity.Catalog;
-import garage.core.entity.Customer;
 import garage.core.repository.CatalogRepository;
-import garage.core.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
