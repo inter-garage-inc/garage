@@ -15,9 +15,10 @@ import java.time.LocalDateTime;
 @Table(name = "parkings")
 @EqualsAndHashCode(callSuper = false)
 public class Parking extends EntityBase {
-
+    @Column(name = "check_in_at")
     private LocalDateTime checkInAt;
 
+    @Column(name = "checkout_at")
     private LocalDateTime checkoutAt;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
