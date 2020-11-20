@@ -2,6 +2,7 @@ package garage.core.entity;
 
 import garage.core.EntityBase;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
