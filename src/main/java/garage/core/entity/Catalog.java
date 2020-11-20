@@ -4,9 +4,7 @@ import garage.core.EntityBase;
 import garage.core.entity.catalog.Status;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -29,6 +27,7 @@ public class Catalog extends EntityBase {
 
     @NotNull
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     public Catalog update(Catalog attributes) {
