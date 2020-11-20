@@ -1,14 +1,11 @@
 package garage.web.controllers;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class MonitoringController {
-    @RequestMapping(method = RequestMethod.GET, path = "/monitoring/heart_beat", produces = "application/json")
+    @GetMapping(path = "/monitoring/heart_beat", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public HeartBeat heartBeat() {
         return HeartBeat.OK;

@@ -34,15 +34,19 @@ public class Address extends EntityBase {
 
     @NotNull
     @Column(nullable = false)
-    private String city;
+    private String neighborhood;
 
     @NotNull
     @Column(nullable = false)
+    private String city;
+
+//    @NotNull
+//    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private State state;
 
-    @NotNull
-    @Column(nullable = false)
+//    @NotNull
+//    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Country country;
 
