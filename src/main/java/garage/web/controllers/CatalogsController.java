@@ -52,8 +52,8 @@ public class CatalogsController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Catalog> update(@PathVariable("id") Long id, @RequestBody Catalog catalog) {
         return catalogRepository.findById(id).map(c -> {
-            var updated = catalogRepository.save(c);
-            return ResponseEntity.ok().body(c.update(catalog));
+            var updated = catalogRepository.save(c.update(catalog));
+            return ResponseEntity.ok().body(updated);
         }).orElse(ResponseEntity.notFound().build());
     }
 }
