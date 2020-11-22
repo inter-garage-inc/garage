@@ -45,6 +45,14 @@ public class UsersController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    @GetMapping(path = "/users/find_by/{username}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<User> findByUsername(@PathVariable("username") String username) {
+        return userRepository.findByUsername(username)
+                .map(u -> ResponseEntity.ok().body(u))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping(path = "/users/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
@@ -58,8 +66,10 @@ public class UsersController {
     @PutMapping(path = "/users/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<User> update(@PathVariable("id") Long id, @RequestBody @Valid User user) {
-        return userRepository.findById(id)
-                .map(u -> ResponseEntity.ok().body(u.update(user)))
-                .orElse(ResponseEntity.notFound().build());
+        return userRepository.findById(id).map(u -> {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            var updated = userRepository.save(u.update(user));
+            return ResponseEntity.ok().body(updated);
+        }).orElse(ResponseEntity.notFound().build());
     }
 }
