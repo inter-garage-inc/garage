@@ -17,44 +17,51 @@ public class CustomersController {
 
     @PostMapping(path = "/customers", produces = "application/json")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> save(@RequestBody Customer customer) {
+    public ResponseEntity<?> register(@RequestBody Customer customer) {
         return customerRepository.findByCpfCnpj(customer.getCpfCnpj())
-                .map(c -> ResponseEntity.unprocessableEntity().build())
-                .orElse(ResponseEntity.status(HttpStatus.CREATED).body(customerRepository.save(customer)));
+            .map(c -> ResponseEntity.badRequest().build())
+            .orElse(ResponseEntity.status(HttpStatus.CREATED).body(customerRepository.save(customer)));
     }
 
     @GetMapping(path = "/customers/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<Customer> findById(@PathVariable Long id) {
         return customerRepository.findById(id)
-                .map(c -> ResponseEntity.ok().body(c))
-                .orElse(ResponseEntity.notFound().build());
+            .map(c -> ResponseEntity.ok().body(c))
+            .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping(path = "/customers/{cpf_cnpj}", produces = "application/json")
+    @GetMapping(path = "/customers/cpf-cnpj/{cpfCnpj}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> findByCpfCnpj(@PathVariable("cpg_cnpj") String cpfCnpj) {
+    public ResponseEntity<Customer> findByCpfCnpj(@PathVariable String cpfCnpj) {
         return customerRepository.findByCpfCnpj(cpfCnpj)
-                .map(c -> ResponseEntity.ok().body(c))
-                .orElse(ResponseEntity.notFound().build());
+            .map(c -> ResponseEntity.ok().body(c))
+            .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping(path = "/customers/license-plate/{licensePlate}", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Customer> findByLicensePlate(@PathVariable String licensePlate) {
+        return customerRepository.findByLicensePlate(licensePlate)
+            .map(c -> ResponseEntity.ok().body(c))
+            .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping(path = "/customers/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Customer> update(@PathVariable("id") Long id, @RequestBody Customer customer) {
+    public ResponseEntity<Customer> update(@PathVariable Long id, @RequestBody Customer customer) {
         return customerRepository.findById(id).map(c -> {
-            var updated = customerRepository.save(c);
-            return ResponseEntity.ok().body(c.update(updated));
+            var updated = customerRepository.save(c.update(customer));
+            return ResponseEntity.ok().body(updated);
         }).orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping(path = "/customers/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        return customerRepository.findById(id)
-                .map(c -> {
-                    customerRepository.deleteById(id);
-                    return ResponseEntity.ok().build();
-                }).orElse(ResponseEntity.notFound().build());
+        return customerRepository.findById(id).map(c -> {
+            customerRepository.deleteById(id);
+            return ResponseEntity.ok().build();
+        }).orElse(ResponseEntity.notFound().build());
     }
 }

@@ -1,6 +1,5 @@
 package garage.core.entity;
 
-import factories.PlanFactory;
 import factories.UserFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,16 +10,16 @@ import support.JUnitSupport;
 
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
-public class UserTest extends JUnitSupport {
+public class UserTest extends JUnitSupport<User> {
     @Test
-    public void whenAUserIsValid(){
+    public void whenAUserIsValid() {
         var entity = UserFactory.user();
         var validations = isValid(entity);
         Assertions.assertThat(validations).isEmpty();
     }
 
     @Test
-    public void whenAUserInvalidValid(){
+    public void whenAUserInvalidValid() {
         var entity = UserFactory.invalidUser();
         var validations = isValid(entity);
         Assertions.assertThat(validations).isNotEmpty();
