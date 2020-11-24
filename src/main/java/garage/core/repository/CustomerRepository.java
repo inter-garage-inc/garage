@@ -11,5 +11,8 @@ import java.util.Optional;
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("select c from Customer c where c.cpfCnpj = :cpfCnpj")
-    Optional<Customer> findByCpfCnpj(@Param("cpfCnpj") String cpfCnpj);
+    Optional<Customer> findByCpfCnpj(String cpfCnpj);
+
+    @Query("SELECT c FROM Vehicle v JOIN Customer c ON v.customer = c WHERE v.licensePlate = :licensePlate")
+    Optional<Customer> findByLicensePlate(String licensePlate);
 }

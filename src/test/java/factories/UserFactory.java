@@ -8,7 +8,7 @@ public class UserFactory {
         return User
                 .builder()
                 .username("foo")
-                .password("bar")
+                .password("$2y$12$fPqQBe.GDMBsuruFAYNApOJ3nIJ6k8WSI4urNcAK8lFJMuwNLNA1u")
                 .role(Role.ADMIN)
                 .build();
     }

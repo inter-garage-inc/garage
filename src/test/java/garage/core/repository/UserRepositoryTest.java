@@ -2,7 +2,6 @@ package garage.core.repository;
 
 import garage.core.entity.User;
 import garage.core.entity.user.Role;
-import garage.core.repository.UserRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,7 @@ public class UserRepositoryTest extends JUnitSupport {
 
     @BeforeEach
     public void setUp() {
-        this.user = User.builder().username("foo").password("bar").role(Role.ADMIN).build();
+        this.user = User.builder().username("foo").password("$2y$12$fPqQBe.GDMBsuruFAYNApOJ3nIJ6k8WSI4urNcAK8lFJMuwNLNA1u").role(Role.ADMIN).build();
     }
 
     @AfterEach
@@ -39,17 +38,17 @@ public class UserRepositoryTest extends JUnitSupport {
         assertThat(expected).isNotNull();
         assertThat(expected.getId()).isNotNull();
         assertThat(expected.getUsername()).isEqualTo("foo");
-        assertThat(expected.getPassword()).isEqualTo("bar");
+        assertThat(expected.getPassword()).isEqualTo("$2y$12$fPqQBe.GDMBsuruFAYNApOJ3nIJ6k8WSI4urNcAK8lFJMuwNLNA1u");
         assertThat(expected.getRole().getValue()).isEqualTo("admin");
     }
 
-//    @Test
-//    public void whenFindByUsernameAndPassword() {
-//        repository.save(this.user);
-//        var expected = repository.findByUsernameAndPassword("foo", "bar").get();
-//        assertThat(expected).isNotNull();
-//        assertThat(expected.getUsername()).isEqualTo("foo");
-//        assertThat(expected.getPassword()).isEqualTo("bar");
-//        assertThat(expected.getRole().getValue()).isEqualTo("admin");
-//    }
+    @Test
+    public void whenFindByUsername() {
+        repository.save(this.user);
+        var expected = repository.findByUsername("foo").get();
+        assertThat(expected).isNotNull();
+        assertThat(expected.getUsername()).isEqualTo("foo");
+        assertThat(expected.getPassword()).isEqualTo("$2y$12$fPqQBe.GDMBsuruFAYNApOJ3nIJ6k8WSI4urNcAK8lFJMuwNLNA1u");
+        assertThat(expected.getRole().getValue()).isEqualTo("admin");
+    }
 }

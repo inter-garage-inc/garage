@@ -1,5 +1,6 @@
 package garage.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import garage.core.EntityBase;
 import lombok.*;
 import org.hibernate.validator.constraints.UniqueElements;
@@ -31,20 +32,24 @@ public class Customer extends EntityBase {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
+    @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     private List<Vehicle> vehicles;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
+    @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     private List<Order> orders;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
+    @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     private Address address;
 
     public Customer update(Customer attributes) {
         this.name = attributes.getName();
         this.cpfCnpj = attributes.getCpfCnpj();
         this.phone = attributes.getPhone();
+        this.address = attributes.getAddress();
         setUpdatedAt(LocalDateTime.now());
         return this;
     }

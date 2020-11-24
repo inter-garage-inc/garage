@@ -31,9 +31,9 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/authentication", produces = "application/json")
-    public ResponseEntity<Jwt> authentication(@RequestBody Credentials authRequest) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-        var authUserDetails = myUserDetailsService.loadUserByUsername(authRequest.getUsername());
+    public ResponseEntity<Jwt> authentication(@RequestBody Credentials credentials) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
+        var authUserDetails = myUserDetailsService.loadUserByUsername(credentials.getUsername());
         var token = jwtUtil.createToken(authUserDetails);
         return ResponseEntity.ok(new Jwt(token));
     }

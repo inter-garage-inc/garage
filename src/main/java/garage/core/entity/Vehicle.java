@@ -15,10 +15,9 @@ import javax.validation.constraints.NotNull;
 @Table(name = "vehicles")
 @EqualsAndHashCode(callSuper = false)
 public class Vehicle extends EntityBase {
-
     @NotNull
     @Column(name = "license_plate", nullable = false)
-    private String licencePlate;
+    private String licensePlate;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id")
@@ -29,7 +28,7 @@ public class Vehicle extends EntityBase {
     private Customer customer;
 
     public Vehicle update(Vehicle attributes) {
-        this.licencePlate = attributes.getLicencePlate();
+        this.licensePlate = attributes.getLicensePlate();
         return this;
     }
 }

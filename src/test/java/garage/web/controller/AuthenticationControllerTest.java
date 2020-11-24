@@ -1,9 +1,9 @@
 package garage.web.controller;
 
-import garage.web.controllers.AuthenticationController;
 import garage.core.entity.User;
 import garage.core.entity.user.Role;
 import garage.core.repository.UserRepository;
+import garage.web.controllers.AuthenticationController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,24 +22,26 @@ public class AuthenticationControllerTest {
 
     @Autowired
     protected MockMvc mvc;
+
     @MockBean
     private UserRepository repository;
 
-//    @Test
-//    public void whenAuthenticateUserWithSuccessfuly() throws Exception {
-//        var user = User.builder().username("foo").password("bar").role(Role.ADMIN).build();
-//        given(repository.findByUsernameAndPassword(user.getUsername(), user.getPassword())).willReturn(Optional.of(user));
-//        mvc.perform(post("/authentication/create")
-//                .content(Fixture.json("login-data"))
-//                .contentType("application/json"))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    public void whenAuthenticateUserWithSuccessfully() throws Exception {
+        var user = User.builder().username("foo").password("$2y$12$fPqQBe.GDMBsuruFAYNApOJ3nIJ6k8WSI4urNcAK8lFJMuwNLNA1u").role(Role.ADMIN).build();
 
-//    @Test
-//    public void whenAuthenticateUserAndFailure() throws Exception {
-//        mvc.perform(post("/authentication/create")
-//                .content(Fixture.json("login-data"))
-//                .contentType("application/json"))
-//                .andExpect(status().isNotFound());
-//    }
+        given(repository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
+        mvc.perform(post("/authentication")
+                .content(Fixture.json("credentials-data"))
+                .contentType("application/json"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void whenAuthenticateUserAndFailure() throws Exception {
+        mvc.perform(post("/authentication")
+                .content(Fixture.json("credentials-data"))
+                .contentType("application/json"))
+                .andExpect(status().isNotFound());
+    }
 }
