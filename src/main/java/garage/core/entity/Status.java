@@ -1,4 +1,4 @@
-package garage.core.entity.user;
+package garage.core.entity;
 
 public enum Status {
     ACTIVE("active"),
