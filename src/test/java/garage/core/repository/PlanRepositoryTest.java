@@ -1,10 +1,9 @@
 package garage.core.repository;
 
-import factories.CustomerFactory;
 import factories.PlanFactory;
 import garage.core.entity.Plan;
 import garage.core.entity.Status;
-import garage.core.repository.PlanRepository;
+import garage.core.entity.plan.Type;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,8 +42,9 @@ public class PlanRepositoryTest extends JUnitSupport {
         assertThat(expected).isNotNull();
         assertThat(expected.getId()).isNotNull();
         assertThat(expected.getStatus()).isEqualTo(Status.ACTIVE);
-        assertThat(expected.getDescription()).isEqualTo("some description");
+        assertThat(expected.getName()).isEqualTo("name");
         assertThat(expected.getPrice()).isEqualTo(BigDecimal.valueOf(10.00));
+        assertThat(expected.getType()).isEqualTo(Type.MONTHLY);
     }
 
     @Test
