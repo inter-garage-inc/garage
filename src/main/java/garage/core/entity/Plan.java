@@ -1,6 +1,7 @@
 package garage.core.entity;
 
 import garage.core.EntityBase;
+import garage.core.entity.plan.Type;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,13 +18,10 @@ import java.time.LocalDateTime;
 @Table(name = "plans")
 @EqualsAndHashCode(callSuper = false)
 public class Plan extends EntityBase {
-    @NotNull
-    @Column(nullable = false)
-    private String name;
 
     @NotNull
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
+    @Column(name = "name", columnDefinition = "TEXT", nullable = false)
+    private String name;
 
     @NotNull
     @ManyToMany
@@ -37,12 +35,17 @@ public class Plan extends EntityBase {
     private BigDecimal price;
 
     @NotNull
+    @Column(name = "type", nullable = false)
+    private Type type;
+
+    @NotNull
     @Column(name = "status",  nullable = false)
     private Status status;
 
     public Plan update(Plan attributes) {
-        this.description = attributes.getDescription();
+        this.name = attributes.getName();
         this.price = attributes.getPrice();
+        this.type = attributes.getType();
         this.status = attributes.getStatus();
         setUpdatedAt(LocalDateTime.now());
         return this;
