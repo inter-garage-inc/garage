@@ -18,51 +18,59 @@ public class OrdersController {
         this.orderRepository = orderRepository;
     }
 
-    @PostMapping(path = "/orders", produces = "application/json")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Order create(@RequestBody Order order) {
-        return orderRepository.save(order);
-    }
+//    @PostMapping(path = "/orders", produces = "application/json")
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public Order create(@RequestBody Order order) {
+//        return orderRepository.save(order);
+//    }
+//
+//    @GetMapping(path = "/orders", produces = "application/json")
+//    @ResponseStatus(HttpStatus.OK)
+//    public List<Order> index() {
+//        return orderRepository.findAll();
+//    }
+//
+//    @GetMapping(path = "/orders/{id}", produces = "application/json")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<?> show(@PathVariable("id") Long id) {
+//        return orderRepository.findById(id)
+//                .map(o -> ResponseEntity.ok().body(o))
+//                .orElse(ResponseEntity.notFound().build());
+//    }
+//
+//    @GetMapping(path = "/orders/{id}/items", produces = "application/json")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<?> items(@PathVariable("id") Long id) {
+//        return orderRepository.findById(id)
+//                .map(o -> ResponseEntity.ok().body(o.getItems()))
+//                .orElse(ResponseEntity.notFound().build());
+//    }
 
-    @GetMapping(path = "/orders", produces = "application/json")
+    @GetMapping(path = "/orders/license-plate/{licensePlate}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public List<Order> index() {
-        return orderRepository.findAll();
-    }
-
-    @GetMapping(path = "/orders/{id}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> show(@PathVariable("id") Long id) {
-        return orderRepository.findById(id)
+    public ResponseEntity<Order> findByLicensePlate(@PathVariable String licensePlate) {
+        return orderRepository.findByLicensePlate(licensePlate)
                 .map(o -> ResponseEntity.ok().body(o))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping(path = "/orders/{id}/items", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> items(@PathVariable("id") Long id) {
-        return orderRepository.findById(id)
-                .map(o -> ResponseEntity.ok().body(o.getItems()))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping(path = "/orders/{id}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
-        return orderRepository.findById(id)
-                .map(o -> {
-                    orderRepository.deleteById(id);
-                    return ResponseEntity.ok().build();
-                }).orElse(ResponseEntity.notFound().build());
-    }
-
-    @PutMapping(path = "/orders/{id}", produces = "application/json")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Order> update(@PathVariable("id") Long id, @RequestBody Order order) {
-        return orderRepository.findById(id).map(o -> {
-            order.setId(o.getId());
-            var updated = orderRepository.save(order);
-            return ResponseEntity.ok().body(o.update(updated));
-        }).orElse(ResponseEntity.notFound().build());
-    }
+//    @DeleteMapping(path = "/orders/{id}", produces = "application/json")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<?> delete(@PathVariable("id") Long id) {
+//        return orderRepository.findById(id)
+//                .map(o -> {
+//                    orderRepository.deleteById(id);
+//                    return ResponseEntity.ok().build();
+//                }).orElse(ResponseEntity.notFound().build());
+//    }
+//
+//    @PutMapping(path = "/orders/{id}", produces = "application/json")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<Order> update(@PathVariable("id") Long id, @RequestBody Order order) {
+//        return orderRepository.findById(id).map(o -> {
+//            order.setId(o.getId());
+//            var updated = orderRepository.save(order);
+//            return ResponseEntity.ok().body(o.update(updated));
+//        }).orElse(ResponseEntity.notFound().build());
+//    }
 }
