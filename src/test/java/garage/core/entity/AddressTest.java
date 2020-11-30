@@ -18,14 +18,14 @@ import javax.validation.Validator;
 @ExtendWith(SpringExtension.class)
 public class AddressTest extends JUnitSupport {
     @Test
-    public void whenAAddresIsValid(){
+    public void whenAAddressIsValid(){
         var entity = AddressFactory.address();
         var validations = isValid(entity);
         Assertions.assertThat(validations).isEmpty();
     }
 
     @Test
-    public void whenAAddressInvalidValid(){
+    public void whenAAddressInvalidValid() {
         var entity= AddressFactory.invalidAddress();
         var validations = isValid(entity);
         Assertions.assertThat(validations).isNotEmpty();

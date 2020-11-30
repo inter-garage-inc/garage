@@ -7,13 +7,15 @@ public class CustomerFactory {
         return Customer
                 .builder()
                 .name("John Doe")
+                .cpfCnpj("00000000000")
+                .phone("5511999999999")
+                .address(AddressFactory.address())
                 .build();
     }
 
     public static Customer invalidCustomer() {
         return Customer
                 .builder()
-                .name(null)
                 .build();
     }
 }
