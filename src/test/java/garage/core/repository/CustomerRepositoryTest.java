@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class CustomerRepositoryTest extends JUnitSupport {
-/**
+
     @Autowired
     private CustomerRepository repository;
 

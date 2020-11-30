@@ -1,7 +1,7 @@
 package garage.core.repository;
 
+import factories.UserFactory;
 import garage.core.entity.User;
-import garage.core.entity.user.Role;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,7 @@ public class UserRepositoryTest extends JUnitSupport {
 
     @BeforeEach
     public void setUp() {
-        this.user = User.builder().username("foo").password("$2y$12$fPqQBe.GDMBsuruFAYNApOJ3nIJ6k8WSI4urNcAK8lFJMuwNLNA1u").role(Role.ADMIN).build();
+        this.user = UserFactory.user();
     }
 
     @AfterEach
@@ -37,18 +37,23 @@ public class UserRepositoryTest extends JUnitSupport {
         var expected = repository.save(user);
         assertThat(expected).isNotNull();
         assertThat(expected.getId()).isNotNull();
-        assertThat(expected.getUsername()).isEqualTo("foo");
-        assertThat(expected.getPassword()).isEqualTo("$2y$12$fPqQBe.GDMBsuruFAYNApOJ3nIJ6k8WSI4urNcAK8lFJMuwNLNA1u");
-        assertThat(expected.getRole().getValue()).isEqualTo("admin");
+        assertThat(expected.getName()).isEqualTo(user.getName());
+        assertThat(expected.getUsername()).isEqualTo(user.getUsername());
+        assertThat(expected.getPassword()).isEqualTo(user.getPassword());
+        assertThat(expected.getRole()).isEqualTo(user.getRole());
+        assertThat(expected.getStatus()).isEqualTo(user.getStatus());
     }
 
     @Test
     public void whenFindByUsername() {
         repository.save(this.user);
-        var expected = repository.findByUsername("foo").get();
+        var expected = repository.findByUsername(user.getUsername()).get();
         assertThat(expected).isNotNull();
-        assertThat(expected.getUsername()).isEqualTo("foo");
-        assertThat(expected.getPassword()).isEqualTo("$2y$12$fPqQBe.GDMBsuruFAYNApOJ3nIJ6k8WSI4urNcAK8lFJMuwNLNA1u");
-        assertThat(expected.getRole().getValue()).isEqualTo("admin");
+        assertThat(expected.getId()).isNotNull();
+        assertThat(expected.getName()).isEqualTo(user.getName());
+        assertThat(expected.getUsername()).isEqualTo(user.getUsername());
+        assertThat(expected.getPassword()).isEqualTo(user.getPassword());
+        assertThat(expected.getRole()).isEqualTo(user.getRole());
+        assertThat(expected.getStatus()).isEqualTo(user.getStatus());
     }
 }
