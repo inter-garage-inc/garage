@@ -34,6 +34,10 @@ public class Order extends EntityBase {
     private User user;
 
     @NotNull
+    @Column(name = "license_plate", nullable = false)
+    private String licensePlate;
+
+    @NotNull
     @Column(name = "payment_method", nullable = false)
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
@@ -48,8 +52,9 @@ public class Order extends EntityBase {
     private Status status;
 
     public Order update(Order attributes) {
-        this.status = attributes.getStatus();
+        this.paymentMethod = attributes.getPaymentMethod();
         this.totalAmount = attributes.getTotalAmount();
+        this.status = attributes.getStatus();
         return this;
     }
 }
