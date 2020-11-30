@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class AddressRepositoryTest extends JUnitSupport {
-
+/*
     @Autowired
     private AddressRepository repository;
 
@@ -66,4 +66,5 @@ public class AddressRepositoryTest extends JUnitSupport {
         var expected = repository.findById(address.getId()).orElse(null);
         assertThat(expected).isNull();
     }
+ */
 }

@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class ItemRepositoryTest extends JUnitSupport {
-
+/*
     @Autowired
     private OrderItemRepository repository;
 
@@ -73,4 +73,5 @@ public class ItemRepositoryTest extends JUnitSupport {
         assertThat(expected).isNotNull();
         assertThat(expected.getOrder()).isNotNull();
     }
+ */
 }

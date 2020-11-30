@@ -5,6 +5,7 @@ import garage.core.entity.Status;
 import garage.core.entity.plan.Type;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public class PlanFactory {
     public static Plan plan() {

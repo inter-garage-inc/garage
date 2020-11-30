@@ -31,7 +31,7 @@ public class PlanController {
         return planRepository.findAll();
     }
 
-    @GetMapping(path = "/plan/{id}", produces = "application/json")
+    @GetMapping(path = "/plans/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Plan> show(@PathVariable("id") Long id) {
         return planRepository.findById(id)
@@ -39,7 +39,7 @@ public class PlanController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping(path = "/plan/{id}", produces = "application/json")
+    @DeleteMapping(path = "/plans/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> delete(@PathVariable("id") Long id) {
         return planRepository.findById(id)
@@ -49,7 +49,7 @@ public class PlanController {
                 }).orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping(path = "/plan/{id}", produces = "application/json")
+    @PutMapping(path = "/plans/{id}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Plan> update(@PathVariable("id") Long id, @RequestBody @Valid Plan plan) {
         return planRepository.findById(id)
