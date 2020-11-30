@@ -11,6 +11,7 @@ import support.JUnitSupport;
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 public class CustomerTest extends JUnitSupport {
+   /**
     @Test
     public void whenACustomerIsValid(){
         var entity = CustomerFactory.customer();
@@ -23,5 +24,5 @@ public class CustomerTest extends JUnitSupport {
         var entity = CustomerFactory.invalidCustomer();
         var validations = isValid(entity);
         Assertions.assertThat(validations).isNotEmpty();
-    }
+    }*/
 }

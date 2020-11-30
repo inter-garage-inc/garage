@@ -1,12 +1,19 @@
 package factories;
 
 import garage.core.entity.Plan;
+import garage.core.entity.Status;
+import garage.core.entity.plan.Type;
+
+import java.math.BigDecimal;
 
 public class PlanFactory {
     public static Plan plan() {
         return Plan
                 .builder()
-                .description("some description")
+                .name("name")
+                .type(Type.MONTHLY)
+                .price(BigDecimal.valueOf(10.00))
+                .status(Status.ACTIVE)
                 .build();
     }
 

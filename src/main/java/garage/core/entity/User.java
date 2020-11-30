@@ -2,15 +2,11 @@ package garage.core.entity;
 
 import garage.core.EntityBase;
 import garage.core.entity.user.Role;
-import garage.core.entity.user.Status;
 import lombok.*;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Builder
 @Data

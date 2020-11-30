@@ -3,10 +3,9 @@ package garage.core.entity.parking;
 import garage.core.EntityBase;
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,10 +16,18 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(callSuper = false)
 public class ParkingSpace extends EntityBase {
     @NotNull
-    @Column
+    @Column(nullable = false, unique = true)
     private String code;
 
     @NotNull
-    @Column
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private SpaceStatus status;
+
+    public ParkingSpace update(ParkingSpace attributes) {
+        this.code = attributes.getCode();
+        this.status = attributes.getStatus();
+        setUpdatedAt(LocalDateTime.now());
+        return this;
+    }
 }
