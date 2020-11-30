@@ -27,7 +27,6 @@ public class AddressRepositoryTest extends JUnitSupport {
     @BeforeEach
     public void setUp() {
         this.address = AddressFactory.address();
-        this.address.setCustomer(CustomerFactory.customer());
     }
 
     @AfterEach

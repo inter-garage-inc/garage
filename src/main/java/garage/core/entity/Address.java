@@ -40,13 +40,13 @@ public class Address extends EntityBase {
     @Column(nullable = false)
     private String city;
 
-//    @NotNull
-//    @Column(nullable = false)
+    @NotNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private State state;
 
-//    @NotNull
-//    @Column(nullable = false)
+    @NotNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Country country;
 
