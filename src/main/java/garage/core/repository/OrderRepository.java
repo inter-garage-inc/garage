@@ -9,5 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    Optional<Order> findByLicensePlate(String licensePlate);
+    @Query("SELECT o FROM Order o WHERE licensePlate = :licensePlate AND status = garage.core.entity.order.Status.OPEN")
+    Optional<Order> findOpenByLicensePlate(String licensePlate);
 }

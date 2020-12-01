@@ -3,6 +3,7 @@ package garage.web.controllers;
 import garage.core.entity.parking.ParkingSpace;
 import garage.core.repository.ParkingSpaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,12 @@ public class ParkingSpacesController {
     @ResponseStatus(HttpStatus.OK)
     public List<ParkingSpace> index() {
         return parkingSpaceRepository.findAll();
+    }
+
+    @GetMapping(path = "/parking-spaces/vacant", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ParkingSpace> indexVacant() {
+        return parkingSpaceRepository.findVacant();
     }
 
     @PostMapping(path = "/parking-spaces", produces = "application/json")

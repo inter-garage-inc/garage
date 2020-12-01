@@ -3,6 +3,7 @@ package garage.core.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import garage.core.EntityBase;
 import garage.core.entity.catalog.Status;
+import garage.core.entity.catalog.Type;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,6 +31,11 @@ public class Catalog extends EntityBase {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @NotNull
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     public Catalog update(Catalog attributes) {
         this.description = attributes.getDescription();
