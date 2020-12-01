@@ -12,10 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthenticationController {
@@ -44,9 +41,9 @@ public class AuthenticationController {
         return ResponseEntity.ok(new JwtResponse(jwt));
     }
 
-    @PostMapping(value = "/authentication/claim-user", produces = "application/json")
+    @GetMapping(value = "/authentication", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
-    public User claimUser(@AuthenticationPrincipal User user) {
-        return userRepository.loadUserByUsername(user.getUsername());
+    public User claimUser(@AuthenticationPrincipal AuthUser user) {
+        return userRepository.findByUsername(user.getUsername()).get();
     }
 }

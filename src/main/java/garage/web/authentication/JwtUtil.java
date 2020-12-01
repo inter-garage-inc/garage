@@ -15,9 +15,8 @@ public class JwtUtil {
     @Value("${garage.web.authentication.jwt.expiration}")
     private Integer expiration;
 
-
     public String generateToken(Authentication authentication) {
-        var user = (User) authentication.getPrincipal();
+        var user = (AuthUser) authentication.getPrincipal();
 
         var now = new Date();
         var expiryDate = new Date(now.getTime() + expiration);

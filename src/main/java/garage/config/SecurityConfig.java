@@ -1,6 +1,6 @@
 package garage.config;
 
-import garage.core.repository.UserRepository;
+import garage.web.authentication.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserRepository userRepository;
+    private AuthUserService authUserService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
-                .userDetailsService(userRepository)
+                .userDetailsService(authUserService)
                 .passwordEncoder(passwordEncoder);
     }
 

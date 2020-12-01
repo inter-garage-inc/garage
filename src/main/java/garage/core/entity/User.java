@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "users")
 @EqualsAndHashCode(callSuper = false)
-public class User extends EntityBase implements UserDetails {
+public class User extends EntityBase {
 
     @NotNull
     @Column(nullable = false)
@@ -53,30 +53,5 @@ public class User extends EntityBase implements UserDetails {
         this.status = attributes.getStatus();
         setUpdatedAt(LocalDateTime.now());
         return this;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.toString()));
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return status == Status.ACTIVE;
     }
 }

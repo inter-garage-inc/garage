@@ -1,6 +1,5 @@
 package garage.web.authentication;
 
-import garage.core.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +24,7 @@ public class AuthRequestFilter extends OncePerRequestFilter {
     private String header;
 
     @Autowired
-    private UserRepository userRepository;
+    private AuthUserService authUserService;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -37,10 +36,10 @@ public class AuthRequestFilter extends OncePerRequestFilter {
 
             if (StringUtils.hasText(jwt) && jwtUtil.validateToken(jwt)) {
                 var username = jwtUtil.getUserUsernameFromJWT(jwt);
-                var user = userRepository.loadUserByUsername(username);
+                var authUser = authUserService.loadUserByUsername(username);
 
-                if(jwtUtil.getPasswordFromJWT(jwt).equals(user.getPassword()) && user.isEnabled()) {
-                    var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                if(jwtUtil.getPasswordFromJWT(jwt).equals(authUser.getPassword()) && authUser.isEnabled()) {
+                    var authentication = new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
