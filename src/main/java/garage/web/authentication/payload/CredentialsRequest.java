@@ -1,9 +1,9 @@
-package garage.web.authentication.data;
+package garage.web.authentication.payload;
 
 import lombok.Data;
 
 @Data
-public class Credentials {
+public class CredentialsRequest {
     private String username;
     private String password;
 }

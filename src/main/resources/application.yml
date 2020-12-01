@@ -35,4 +35,12 @@ spring:
 server:
   use-forward-headers: true
 
-
+garage:
+  web:
+    authentication:
+      jwt:
+        secret-key: "G@rAg3Inc"
+        expiration: 43200000
+      request-filter:
+        prefix: "Bearer "
+        header: "Authorization"

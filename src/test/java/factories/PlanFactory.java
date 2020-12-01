@@ -1,7 +1,7 @@
 package factories;
 
 import garage.core.entity.Plan;
-import garage.core.entity.Status;
+import garage.core.entity.user.Status;
 import garage.core.entity.plan.Type;
 
 import java.math.BigDecimal;

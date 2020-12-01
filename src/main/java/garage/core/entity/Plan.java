@@ -2,6 +2,7 @@ package garage.core.entity;
 
 import garage.core.EntityBase;
 import garage.core.entity.plan.Type;
+import garage.core.entity.user.Status;
 import lombok.*;
 
 import javax.persistence.*;

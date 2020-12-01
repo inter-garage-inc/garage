@@ -1,53 +1,72 @@
 package garage.web.authentication;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import garage.core.entity.User;
+import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
-@Service
+@Component
 public class JwtUtil {
-    private final static String SECRET_KEY = "G@rAg3Inc";
-    private final static Integer EXPIRATION = 1000 * 60 * 60 * 10;
+    @Value("${garage.web.authentication.jwt.secret-key}")
+    private String secretKey;
 
-    public String createToken(MyUserDetails myUserDetails) {
-        var currentTimeMillis = System.currentTimeMillis();
-        return Jwts.builder()
-                .claim("username", myUserDetails.getUsername())
-                .claim("password", myUserDetails.getPassword())
-                .claim("user", myUserDetails.getAsString())
-                .setIssuedAt(new Date(currentTimeMillis))
-                .setExpiration(new Date(currentTimeMillis + EXPIRATION))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+    @Value("${garage.web.authentication.jwt.expiration}")
+    private Integer expiration;
+
+    public String generateToken(Authentication authentication) {
+        var user = (AuthUser) authentication.getPrincipal();
+
+        var now = new Date();
+        var expiryDate = new Date(now.getTime() + expiration);
+
+        return Jwts
+                .builder()
+                .claim("username", user.getUsername())
+                .claim("password", user.getPassword())
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
 
-    private Boolean isExpired(String token) {
-        return extractAllClaims(token)
-                .getExpiration()
-                .before(new Date());
-    }
-
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+    public String getUserUsernameFromJWT(String token) {
+        var claims = Jwts
+                .parser()
+                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
+        return claims.get("username", String.class);
     }
 
-    public String extractClaim(String token, String claim_key) {
-        return extractAllClaims(token).get(claim_key, String.class);
+    public String getPasswordFromJWT(String token) {
+        var claims = Jwts
+                .parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("password", String.class);
     }
 
-    public Boolean isValid(String token, UserDetails userDetails) {
-        return (
-                extractClaim(token, "username").equals(userDetails.getUsername())
-                &&
-                extractClaim(token, "password").equals(userDetails.getPassword())
-                &&
-                !isExpired(token)
-        );
+    public boolean validateToken(String authToken) {
+        try {
+            Jwts
+                .parser()
+                .setSigningKey(secretKey)
+                .parseClaimsJws(authToken);
+            return true;
+        } catch (SignatureException ex) {
+            System.err.println("Invalid JWT signature");
+        } catch (MalformedJwtException ex) {
+            System.err.println("Invalid JWT token");
+        } catch (ExpiredJwtException ex) {
+            System.err.println("Expired JWT token");
+        } catch (UnsupportedJwtException ex) {
+            System.err.println("Unsupported JWT token");
+        } catch (IllegalArgumentException ex) {
+            System.err.println("JWT claims string is empty.");
+        }
+        return false;
     }
 }

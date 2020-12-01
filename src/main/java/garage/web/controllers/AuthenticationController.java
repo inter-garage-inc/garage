@@ -1,16 +1,18 @@
 package garage.web.controllers;
 
+import garage.core.entity.User;
 import garage.core.repository.UserRepository;
 import garage.web.authentication.*;
-import garage.web.authentication.data.Credentials;
-import garage.web.authentication.data.Jwt;
+import garage.web.authentication.payload.CredentialsRequest;
+import garage.web.authentication.payload.JwtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AuthenticationController {
@@ -21,9 +23,6 @@ public class AuthenticationController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private MyUserDetailsService myUserDetailsService;
-
-    @Autowired
     private JwtUtil jwtUtil;
 
     public AuthenticationController(UserRepository userRepository) {
@@ -31,10 +30,21 @@ public class AuthenticationController {
     }
 
     @PostMapping(value = "/authentication", produces = "application/json")
-    public ResponseEntity<Jwt> authentication(@RequestBody Credentials credentials) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(credentials.getUsername(), credentials.getPassword()));
-        var authUserDetails = myUserDetailsService.loadUserByUsername(credentials.getUsername());
-        var token = jwtUtil.createToken(authUserDetails);
-        return ResponseEntity.ok(new Jwt(token));
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<JwtResponse> authentication(@RequestBody CredentialsRequest credentialsRequest) {
+        var authentication = authenticationManager
+                .authenticate(new UsernamePasswordAuthenticationToken(credentialsRequest.getUsername(), credentialsRequest.getPassword()));
+        var authUser = (AuthUser) authentication.getPrincipal();
+        if(authUser.isEnabled()) {
+            var jwt = jwtUtil.generateToken(authentication);
+            return ResponseEntity.ok(new JwtResponse(jwt));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+    }
+
+    @GetMapping(value = "/authentication", produces = "application/json")
+    @ResponseStatus(HttpStatus.OK)
+    public User claimUser(@AuthenticationPrincipal AuthUser user) {
+        return userRepository.findByUsername(user.getUsername()).get();
     }
 }
