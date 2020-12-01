@@ -8,7 +8,6 @@ public class ItemFactory {
     public static Item item() {
         return Item
                 .builder()
-                .amout(BigDecimal.valueOf(1000))
                 .build();
     }
 

@@ -19,9 +19,7 @@ import java.time.LocalDateTime;
 @Table(name = "plans")
 @EqualsAndHashCode(callSuper = false)
 public class Plan extends EntityBase {
-
-    @NotNull
-    @Column(name = "name", columnDefinition = "TEXT", nullable = false)
+    @Column(name = "name", columnDefinition = "TEXT")
     private String name;
 
     @NotNull
@@ -32,15 +30,17 @@ public class Plan extends EntityBase {
     private List<Catalog> catalog;
 
     @NotNull
-    @Column(name = "price", nullable = false)
+    @Column(name = "price")
     private BigDecimal price;
 
     @NotNull
-    @Column(name = "type", nullable = false)
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
     private Type type;
 
     @NotNull
-    @Column(name = "status",  nullable = false)
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     public Plan update(Plan attributes) {
@@ -48,6 +48,7 @@ public class Plan extends EntityBase {
         this.price = attributes.getPrice();
         this.type = attributes.getType();
         this.status = attributes.getStatus();
+        this.catalog = attributes.getCatalog();
         setUpdatedAt(LocalDateTime.now());
         return this;
     }

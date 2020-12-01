@@ -6,7 +6,6 @@ public class ParkingSpaceFactory {
     public static ParkingSpace parkingSpace() {
         return ParkingSpace
                 .builder()
-                .number(123456)
                 .build();
     }
 

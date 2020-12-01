@@ -1,5 +1,6 @@
 package garage.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import garage.core.EntityBase;
 import garage.core.entity.catalog.Status;
 import lombok.*;

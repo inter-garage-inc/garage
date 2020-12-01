@@ -1,6 +1,8 @@
 package garage.core.repository;
 
+import factories.CatalogFactory;
 import factories.PlanFactory;
+import garage.core.entity.Catalog;
 import garage.core.entity.Plan;
 import garage.core.entity.Status;
 import garage.core.entity.plan.Type;
@@ -14,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import support.JUnitSupport;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -23,6 +26,9 @@ public class PlanRepositoryTest extends JUnitSupport {
 
     @Autowired
     private PlanRepository repository;
+
+    @Autowired
+    private CatalogRepository catalogRepository;
 
     private Plan plan;
 
@@ -48,19 +54,33 @@ public class PlanRepositoryTest extends JUnitSupport {
     }
 
     @Test
-    public void whenFindIPlanById() {
+    public void whenFindPlanById() {
         var plan = repository.save(this.plan);
         var expected = repository.findById(plan.getId()).get();
         assertThat(expected).isNotNull();
-        assertThat(expected.getStatus().getValue()).isEqualTo("active");
+        assertThat(expected.getStatus()).isEqualTo(Status.ACTIVE);
+    }
+
+    @Test
+    public void whenPlanHasCatalog() {
+        var catalog = CatalogFactory.catalog();
+        var savedCatalog = catalogRepository.save(catalog);
+        this.plan.setCatalog(List.of(savedCatalog));
+        var expected = repository.save(this.plan);
+        assertThat(expected).isNotNull();
+        assertThat(expected.getStatus()).isEqualTo(Status.ACTIVE);
+        assertThat(expected.getCatalog().size()).isEqualTo(1);
+        assertThat(expected.getCatalog().stream().findFirst().get().getId()).isEqualTo(1);
+        assertThat(expected.getCatalog().stream().findFirst().get().getDescription()).isEqualTo("some description");
     }
 
     @Test
     public void whenFindAllIPlan() {
-        var item = repository.save(this.plan);
+        var item = repository .save(this.plan);
         var expected = repository.findAll();
         assertThat(expected).isNotNull();
         assertThat(expected.size()).isEqualTo(1);
+
     }
 
     @Test
