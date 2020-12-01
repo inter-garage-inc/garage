@@ -34,11 +34,12 @@ public class AuthenticationController {
     public ResponseEntity<JwtResponse> authentication(@RequestBody CredentialsRequest credentialsRequest) {
         var authentication = authenticationManager
                 .authenticate(new UsernamePasswordAuthenticationToken(credentialsRequest.getUsername(), credentialsRequest.getPassword()));
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-        var jwt = jwtUtil.generateToken(authentication);
-        return ResponseEntity.ok(new JwtResponse(jwt));
+        var authUser = (AuthUser) authentication.getPrincipal();
+        if(authUser.isEnabled()) {
+            var jwt = jwtUtil.generateToken(authentication);
+            return ResponseEntity.ok(new JwtResponse(jwt));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @GetMapping(value = "/authentication", produces = "application/json")
