@@ -6,7 +6,6 @@ public class VehicleFactory {
     public static Vehicle vehicle() {
         return Vehicle
                 .builder()
-                .licencePlate("XPTO-12324")
                 .build();
     }
 

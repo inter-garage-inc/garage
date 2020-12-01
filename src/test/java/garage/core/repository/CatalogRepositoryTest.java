@@ -1,6 +1,7 @@
 package garage.core.repository;
 
 import factories.CatalogFactory;
+import factories.PlanFactory;
 import garage.core.entity.Catalog;
 import garage.core.repository.CatalogRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -12,6 +13,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import support.JUnitSupport;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
@@ -20,6 +23,9 @@ public class CatalogRepositoryTest extends JUnitSupport {
 
     @Autowired
     private CatalogRepository repository;
+
+    @Autowired
+    private PlanRepository planRepository;
 
     private Catalog catalog;
 
@@ -40,6 +46,22 @@ public class CatalogRepositoryTest extends JUnitSupport {
         assertThat(expected.getId()).isNotNull();
     }
 
+    @Test
+    public void whenCatalogBelongsToPlan() {
+        var catalog = repository.save(this.catalog);
+
+        var plan = PlanFactory.plan();
+        plan.setCatalog(List.of(catalog));
+        planRepository.save(plan);
+
+        var expected = repository.findById(catalog.getId()).get();
+
+        assertThat(expected).isNotNull();
+        assertThat(expected.getId()).isNotNull();
+    }
+
+
+/*
     @Test
     public void whenFindCatalogById() {
         var catalog = repository.save(this.catalog);
@@ -65,5 +87,6 @@ public class CatalogRepositoryTest extends JUnitSupport {
         var expected = repository.findById(catalog.getId()).orElse(null);
         assertThat(expected).isNull();
     }
+ */
 }
 

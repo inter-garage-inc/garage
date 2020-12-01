@@ -1,8 +1,8 @@
 package garage.core.entity;
 
 public enum Status {
-    ACTIVE("active"),
-    DISABLE("disable");
+    ACTIVE("ativo"),
+    DISABLE("inativo");
 
     private String value;
 
