@@ -1,6 +1,6 @@
 package factories;
 
-import garage.core.entity.Status;
+import garage.core.entity.user.Status;
 import garage.core.entity.User;
 import garage.core.entity.user.Role;
 

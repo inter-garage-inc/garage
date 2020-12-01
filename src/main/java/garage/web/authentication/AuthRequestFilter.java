@@ -1,12 +1,13 @@
 package garage.web.authentication;
 
+import garage.core.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -17,36 +18,46 @@ import java.io.IOException;
 
 @Component
 public class AuthRequestFilter extends OncePerRequestFilter {
+    @Value("${garage.web.authentication.request-filter.prefix}")
+    private String prefix;
 
-    private final static String PREFIX = "Bearer ";
-    private final static String HEADER = "Authorization";
+    @Value("${garage.web.authentication.request-filter.header}")
+    private String header;
 
     @Autowired
-    private UserDetailsService userDetailsService;
+    private UserRepository userRepository;
 
     @Autowired
     private JwtUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = request.getHeader(HEADER);
+        try {
+            String jwt = getJwtFromRequest(request);
 
-        if (authorizationHeader != null && authorizationHeader.startsWith(PREFIX) && SecurityContextHolder.getContext().getAuthentication() == null) {
+            if (StringUtils.hasText(jwt) && jwtUtil.validateToken(jwt)) {
+                var username = jwtUtil.getUserUsernameFromJWT(jwt);
+                var user = userRepository.loadUserByUsername(username);
 
-            String token = authorizationHeader.substring(PREFIX.length());
-            String username = jwtUtil.extractClaim(token, "username");
-
-            UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-
-            if (jwtUtil.isValid(token, userDetails)) {
-                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                        new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+                if(jwtUtil.getPasswordFromJWT(jwt).equals(user.getPassword()) && user.isEnabled()) {
+                    var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+                    authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
+        } catch (Exception exception) {
+            System.err.println("Could not set user authentication in security context");
+            exception.printStackTrace();
         }
 
-
         filterChain.doFilter(request, response);
+    }
+
+    private String getJwtFromRequest(HttpServletRequest request) {
+        String bearerToken = request.getHeader(header);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(prefix)) {
+            return bearerToken.substring(prefix.length());
+        }
+        return null;
     }
 }

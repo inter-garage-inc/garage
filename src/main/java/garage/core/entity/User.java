@@ -2,11 +2,17 @@ package garage.core.entity;
 
 import garage.core.EntityBase;
 import garage.core.entity.user.Role;
+import garage.core.entity.user.Status;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 
 @Builder
 @Data
@@ -15,7 +21,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "users")
 @EqualsAndHashCode(callSuper = false)
-public class User extends EntityBase {
+public class User extends EntityBase implements UserDetails {
 
     @NotNull
     @Column(nullable = false)
@@ -47,5 +53,30 @@ public class User extends EntityBase {
         this.status = attributes.getStatus();
         setUpdatedAt(LocalDateTime.now());
         return this;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role.toString()));
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return status == Status.ACTIVE;
     }
 }
