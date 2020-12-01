@@ -30,19 +30,19 @@ public class Customer extends EntityBase {
     @Column(nullable = false)
     private String phone;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
     @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "vehicles_id")
     private List<Vehicle> vehicles;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
     @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "orders_id")
     private List<Order> orders;
 
+    @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "address_id")
-    @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     private Address address;
 
     public Customer update(Customer attributes) {

@@ -1,5 +1,6 @@
 package garage.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import garage.core.EntityBase;
 import garage.core.entity.parking.ParkingSpace;
 import lombok.*;
@@ -21,6 +22,7 @@ public class Parking extends EntityBase {
     @Column(name = "checkout_at")
     private LocalDateTime checkoutAt;
 
+    @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "parking_space_id")
     private ParkingSpace parkingSpace;

@@ -1,6 +1,7 @@
 package garage.core.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import garage.core.EntityBase;
 import garage.core.entity.order.Item;
 import garage.core.entity.order.PaymentMethod;
@@ -20,15 +21,19 @@ import java.util.List;
 @Table(name = "orders")
 @EqualsAndHashCode(callSuper = false)
 public class Order extends EntityBase {
+
+    @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private List<Item> items;
 
     @JsonIgnore
+    @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -37,13 +42,11 @@ public class Order extends EntityBase {
     @Column(name = "license_plate", nullable = false)
     private String licensePlate;
 
-    @NotNull
-    @Column(name = "payment_method", nullable = false)
+    @Column(name = "payment_method")
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;
 
-    @NotNull
-    @Column(name = "total_amount", nullable = false)
+    @Column(name = "total_amount")
     private BigDecimal totalAmount;
 
     @NotNull
