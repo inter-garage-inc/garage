@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>, UserDetailsService {
     @Query("select u from User u where u.username = :username")
-    Optional<User> findUserByUsername(String username);
+    Optional<User> findByUsername(String username);
 
     @Query("select u from User u where u.username = :username")
     User loadUserByUsername(String username);

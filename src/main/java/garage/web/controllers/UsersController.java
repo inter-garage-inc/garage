@@ -48,7 +48,7 @@ public class UsersController {
     @GetMapping(path = "/users/find_by/{username}", produces = "application/json")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<User> findByUsername(@PathVariable("username") String username) {
-        return userRepository.findUserByUsername(username)
+        return userRepository.findByUsername(username)
                 .map(u -> ResponseEntity.ok().body(u))
                 .orElse(ResponseEntity.notFound().build());
     }
