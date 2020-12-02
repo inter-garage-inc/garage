@@ -1,5 +1,6 @@
 package garage.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import garage.core.EntityBase;
 import garage.core.entity.plan.Type;
 import garage.core.entity.user.Status;

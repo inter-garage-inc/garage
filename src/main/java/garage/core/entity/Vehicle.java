@@ -21,17 +21,14 @@ public class Vehicle extends EntityBase {
     private String licensePlate;
 
     @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @NotNull
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id")
     private Plan plan;
 
-    @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
-    private Customer customer;
-
     public Vehicle update(Vehicle attributes) {
         this.licensePlate = attributes.getLicensePlate();
+        this.plan = attributes.getPlan();
         return this;
     }
 }
