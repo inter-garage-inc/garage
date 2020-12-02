@@ -2,7 +2,7 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/garage?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/garage?useTimezone=true&serverTimezone=UTC&useUnicode=yes&characterEncoding=UTF-8
     username: garage
     password: 'G@rAg3Inc'
     hikari:
@@ -11,7 +11,7 @@ spring:
       poolName: Garage
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         temp:
