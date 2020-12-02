@@ -32,23 +32,24 @@ public class Customer extends EntityBase {
 
     @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "vehicles_id")
+    @JoinColumn(name = "customer_id")
     private List<Vehicle> vehicles;
 
     @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "orders_id")
+    @JoinColumn(name = "customer_id")
     private List<Order> orders;
 
     @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
+    @JoinColumn(name = "customer_id")
     private Address address;
 
     public Customer update(Customer attributes) {
         this.name = attributes.getName();
         this.cpfCnpj = attributes.getCpfCnpj();
         this.phone = attributes.getPhone();
+        this.vehicles = attributes.getVehicles();
         this.address = attributes.getAddress();
         setUpdatedAt(LocalDateTime.now());
         return this;
