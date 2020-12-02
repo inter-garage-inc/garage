@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -48,6 +49,7 @@ public class OrdersController {
         var customer = customerRepository.findByLicensePlate(order.getLicensePlate());
         var catalogs = catalogRepository.findAllById(() -> order.getItems().stream().map(i -> i.getCatalog().getId()).iterator());
         var parkingSpace = parkingSpaceRepository.findVacant().stream().findFirst();
+        System.out.println(order.getPaymentMethod());
         order.setUser(user);
         customer.ifPresent(order::setCustomer);
         order.setItems(Item.listOf(catalogs));
@@ -65,6 +67,26 @@ public class OrdersController {
             });
         order.setStatus(Status.OPEN);
         return orderRepository.save(order);
+    }
+
+    @PostMapping(path = "/orders/close", produces = "application/json")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<?> close(@RequestBody Order order) {
+        return orderRepository.findOpenByLicensePlate(order.getLicensePlate())
+            .map(o -> {
+                BigDecimal totalAmount = new BigDecimal(0);
+                for (Item item : o.getItems()) {
+                    totalAmount = totalAmount.add(item.getCatalog().getPrice());
+                }
+                o.getItems().stream().filter(i -> i.getCatalog().getType() == Type.PARKING)
+                        .forEach(item -> {
+                            item.getParking().getParkingSpace().setStatus(SpaceStatus.VACANT);
+                        });
+                o.setTotalAmount(totalAmount);
+                o.setStatus(Status.PAID);
+                o.setPaymentMethod(order.getPaymentMethod());
+                return ResponseEntity.ok().body(orderRepository.save(o));
+            }).orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping(path = "/orders", produces = "application/json")
