@@ -51,13 +51,9 @@ public class CustomersController {
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Customer> update(@PathVariable Long id, @RequestBody Customer customer) {
         return customerRepository.findById(id).map(c -> {
-            System.out.println(c);
             var updated = customerRepository.save(c.update(customer));
-            System.out.println(updated);
             return ResponseEntity.ok().body(updated);
         }).orElse(ResponseEntity.notFound().build());
-
-
     }
 
     @DeleteMapping(path = "/customers/{id}", produces = "application/json")

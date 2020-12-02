@@ -22,7 +22,7 @@ public class Vehicle extends EntityBase {
 
     @JsonIgnoreProperties({"hibernate_lazy_initializer", "handler"})
     @NotNull
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "plan_id")
     private Plan plan;
 

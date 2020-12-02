@@ -11,7 +11,7 @@ spring:
       poolName: Garage
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     properties:
       hibernate:
         temp:
