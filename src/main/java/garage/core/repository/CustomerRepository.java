@@ -13,6 +13,6 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query("select c from Customer c where c.cpfCnpj = :cpfCnpj")
     Optional<Customer> findByCpfCnpj(String cpfCnpj);
 
-    @Query("SELECT c FROM Customer c JOIN FETCH c.vehicles v WHERE v.licensePlate = :licensePlate")
+    @Query("SELECT c FROM Customer c JOIN c.vehicle v WHERE v.licensePlate = :licensePlate")
     Optional<Customer> findByLicensePlate(String licensePlate);
 }
