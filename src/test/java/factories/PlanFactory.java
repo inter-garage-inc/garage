@@ -15,6 +15,7 @@ public class PlanFactory {
                 .type(Type.MONTHLY)
                 .price(BigDecimal.valueOf(10.00))
                 .status(Status.ACTIVE)
+                .catalog(List.of(CatalogFactory.catalog()))
                 .build();
     }
 

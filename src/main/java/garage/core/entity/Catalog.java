@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 @Table(name = "catalogs")
 @EqualsAndHashCode(callSuper = false)
 public class Catalog extends EntityBase {
+
     @NotNull
     @Column(nullable = false)
     private String description;
