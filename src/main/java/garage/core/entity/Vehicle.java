@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "vehicles")
 @EqualsAndHashCode(callSuper = false)
 public class Vehicle extends EntityBase {
+
     @NotNull
     @Column(name = "license_plate", nullable = false)
     private String licensePlate;
